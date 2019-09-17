@@ -145,9 +145,10 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         /// </summary>
         private void AddStaff()
         {
-            Staff s = new Staff();       
-
-
+            Staff s = new Staff();
+            s.GetName(this);
+            s.GetRole(this);
+            s.AddStaff();
         }
 
         /// <summary>
