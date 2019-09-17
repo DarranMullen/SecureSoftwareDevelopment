@@ -19,11 +19,11 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             login,//done
             logout,//done
             exit,//done
-            help,
-            add,//done
-            find,
-            edit,
-            delete
+            help,//TODO help
+            add,//TODO add staff
+            find,//TODO find player and statt
+            edit,//TODO edit player and staff
+            delete//TODO delete player and staff
         }
 
         /// <summary>
