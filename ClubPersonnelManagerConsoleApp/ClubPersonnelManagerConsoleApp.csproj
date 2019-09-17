@@ -42,10 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Person.cs" />
+    <Compile Include="Classes\Player.cs" />
+    <Compile Include="Classes\Staff.cs" />
     <Compile Include="Classes\User.cs" />
     <Compile Include="Classes\UserInput.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="Interfaces\IPerson.cs" />
+    <Compile Include="Interfaces\IPlayer.cs" />
+    <Compile Include="Interfaces\IStaff.cs" />
     <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="Interfaces\IUserInput.cs" />
     <Compile Include="Program.cs" />
