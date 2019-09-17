@@ -11,7 +11,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
     class UserInput : IUserInput
     {
         /// <summary>
-        /// The valid commands
+        /// Valid commands
         /// </summary>
         public enum Commands
         {
@@ -20,7 +20,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             logout,//done
             exit,//done
             help,//TODO help
-            add,//TODO add staff
+            add,//done
             find,//TODO find player and statt
             edit,//TODO edit player and staff
             delete//TODO delete player and staff
@@ -118,8 +118,6 @@ namespace ClubPersonnelManagerConsoleApp.Classes
 
         /// <summary>
         /// add [Firstname.]Lastname {-p position number|-s role}
-        /// e.g. Staff
-        /// add Jurgen.Klopp -s m
         /// </summary>
         private void Add()
         {
@@ -139,6 +137,17 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             }
             else
                 Console.WriteLine("Error: Only admins can add personnel");
+        }
+        /// <summary>
+        /// add [Firstname.]Lastname -s role
+        /// e.g.
+        /// add Jurgen.Klopp -s m 
+        /// </summary>
+        private void AddStaff()
+        {
+            Staff s = new Staff();       
+
+
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClubPersonnelManagerConsoleApp.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,8 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
     interface IStaff
     {
         string Role { get; set; }
+
+        void GetRole(UserInput u);
+        void AddStaff();
     }
 }

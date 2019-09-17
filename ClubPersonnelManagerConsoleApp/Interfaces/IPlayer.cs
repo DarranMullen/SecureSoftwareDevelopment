@@ -12,7 +12,6 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
         string Position { get; set; }
         string SquadNumber { get; set; }
 
-        void GetName(UserInput u);
         void GetPosition(UserInput u);
         void GetSquadNumber(UserInput u);
         void AddPlayer();

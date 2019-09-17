@@ -12,10 +12,10 @@ namespace ClubPersonnelManagerConsoleApp.Classes
     {
         public enum Positions
         {
-            G,
-            D,
-            M,
-            F
+            G,  /* Goalkeeper */
+            D,  /* Defender */
+            M,  /* Midfielder */
+            F   /* Forward */
         }
         public string Position { get; set; }
         public string SquadNumber { get; set; }
@@ -27,29 +27,6 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             this.LastName = string.Empty;
             this.Position = string.Empty;
             this.SquadNumber = string.Empty;
-        }
-
-        public void GetName(UserInput u)
-        {
-            string[] names;
-
-            if (u.RawTextArr[1].Contains("."))
-
-            {
-                names = u.RawTextArr[1].Split('.');
-                if (names.Length != 2)
-                    Console.WriteLine("Error: incorrect syntax");
-                else
-                {
-                    this.FirstName = names[0];
-                    this.LastName = names[1];
-                }
-            }
-            else
-            {
-                this.FirstName = string.Empty;
-                this.LastName = u.RawTextArr[1];
-            }
         }
 
         public void GetPosition(UserInput u)
@@ -98,9 +75,9 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             string player;
             string players = Constants.PLAYER_CSV_FILE;
             if (this.FirstName != string.Empty) 
-                player = string.Format("{0} {1},{2},{3}", this.FirstName, this.LastName, this.Position, this.SquadNumber);
+                player = string.Format("{0} {1},{2},{3}\n", this.FirstName, this.LastName, this.Position, this.SquadNumber);
             else
-                player = string.Format("{0},{1},{2}",this.LastName,this.Position,this.SquadNumber);
+                player = string.Format("{0},{1},{2}\n",this.LastName,this.Position,this.SquadNumber);
 
             File.AppendAllText(players, player);
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClubPersonnelManagerConsoleApp.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,9 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
     {
         string FirstName { get; set; }
         string LastName { get; set; }
+        void GetName(UserInput u);
     }
+
 }
 
 /*
