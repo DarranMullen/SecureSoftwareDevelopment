@@ -32,7 +32,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
 
         public void GetRole(UserInput u)
         {
-            if (Enum.TryParse(u.RawTextArr[2], out Roles r))
+            if (Enum.TryParse(u.RawTextArr[3], out Roles r))
             {
                 switch (r)
                 {
@@ -62,14 +62,27 @@ namespace ClubPersonnelManagerConsoleApp.Classes
 
         public void AddStaff()
         {
-            string staff;
-            string staffs = Constants.STAFF_CSV_FILE;
-            if (this.FirstName != string.Empty)
-                staff = string.Format("{0} {1},{2}\n", this.FirstName, this.LastName, this.Role);
-            else
-                staff = string.Format("{0},{1}\n", this.LastName, this.Role);
+            if ((!this.LastName.Equals(string.Empty)) && (!this.Role.Equals(string.Empty)))
+            {
+                string staff;
+                string staffs = Constants.STAFF_CSV_FILE;
+                if (this.FirstName != string.Empty)
+                    staff = string.Format("{0} {1},{2}\n", this.FirstName, this.LastName, this.Role);
+                else
+                    staff = string.Format("{0},{1}\n", this.LastName, this.Role);
 
-            File.AppendAllText(staffs, staff);
+                try
+                {
+                    File.AppendAllText(staffs, staff);
+                    Console.WriteLine("Staff added");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            else
+                Console.WriteLine("Error: Staff was not added");
         }
     }
 }

@@ -79,8 +79,15 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             else
                 player = string.Format("{0},{1},{2}\n",this.LastName,this.Position,this.SquadNumber);
 
-            File.AppendAllText(players, player);
-
+            try
+            {
+                File.AppendAllText(players, player);
+                Console.WriteLine("Player added");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
         }
     }
