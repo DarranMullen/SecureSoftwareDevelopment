@@ -21,7 +21,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public string Role { get; set; }
 
         /// <summary>
-        /// Constrructor
+        /// Constructor
         /// </summary>
         public Staff()
         {

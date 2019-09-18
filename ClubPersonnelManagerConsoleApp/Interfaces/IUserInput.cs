@@ -10,7 +10,8 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
     interface IUserInput
     {
         string RawText { get; set; }
-        string[] RawTextArr { get; set; }
+        string[] RawTextArr { get; set;}
+
         UserInput.Commands Command { get; set; }
         Dictionary<string, string> Options { get; set; }
         List<string> Parameters { get; set; }

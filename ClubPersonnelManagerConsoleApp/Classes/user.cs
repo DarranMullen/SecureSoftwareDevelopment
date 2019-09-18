@@ -39,20 +39,8 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                         this.IsAdmin = bool.Parse((user.Split(',')[2]));
                     break;
                 }
-
             }
-
             Globals.User = this;
-
-            if (this.Authenticated)
-            {
-                Console.WriteLine("YES {0}", this.IsAdmin);
-            }
-            else
-            {
-                Console.WriteLine("NO {0}", this.IsAdmin);
-            }
-
         }
     }
 }

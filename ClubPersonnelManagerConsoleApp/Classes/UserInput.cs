@@ -19,9 +19,9 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             login,//done
             logout,//done
             exit,//done
-            help,//TODO help
+            help,//done
             add,//done
-            find,//TODO find player and statt
+            find,//TODO find player and staff
             edit,//TODO edit player and staff
             delete//TODO delete player and staff
         }
@@ -58,12 +58,18 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             this.Options = new Dictionary<string, string>();
             this.Parameters = new List<string>();
+            if (Globals.User.Authenticated)
+                Console.Write("{0}> ",Globals.User.Username);
+            else
+                Console.Write("> ");
+            this.RawText = Console.ReadLine().Trim();
+            if (this.RawText != "") 
+            {
+                this.RawTextArr = this.RawText.Split(' ');
+                GetCommandName();
+                ProcessCommand();
+            }
             
-            Console.Write('>');
-            this.RawText = Console.ReadLine();
-            this.RawTextArr = this.RawText.Split(' ');
-            GetCommandName();
-            ProcessCommand();
         }
 
         /// <summary>
@@ -100,6 +106,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     Exit();
                     break;
                 case Commands.help:
+                    Help();
                     break;
                 case Commands.add:
                     Add();
@@ -109,11 +116,59 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 case Commands.edit:
                     break;
                 case Commands.delete:
+                    Delete();
                     break;
                 default:
                     None();
                     break;
             }
+        }
+        /// <summary>
+        /// delete {-s|-p} squadnumber
+        /// </summary>
+        private void Delete()
+        {
+            if (Globals.User.IsAdmin)
+            {
+                if (this.RawTextArr[1] == "-p")
+                {
+                    DeletePlayer();
+                }
+                else if (this.RawTextArr[1] == "-s")
+                {
+                    DeleteStaff();
+                }
+                else
+                    Console.WriteLine("Error: incorrect syntax");
+            }
+            else
+                Console.WriteLine("Error: Only admins can delete personnel");
+        }
+
+        private void DeleteStaff()
+        {
+            //step through each staff until you get a matching id
+            //delete this line
+            //save the file
+        }
+
+        private void DeletePlayer()
+        {
+            //step through each player until you get a matching id
+            //delete this line
+            //save the file
+
+        }
+
+        /// <summary>
+        /// show valid commands
+        /// </summary>
+        private void Help()
+        {
+            Console.WriteLine("Valid Commands");
+            foreach (var c in Enum.GetValues(typeof(Commands)))
+                if (c.ToString() != "none")
+                    Console.WriteLine(c.ToString());
         }
 
         /// <summary>
@@ -133,11 +188,11 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 }
                 else
                     Console.WriteLine("Error: incorrect syntax");
-
             }
             else
                 Console.WriteLine("Error: Only admins can add personnel");
         }
+   
         /// <summary>
         /// add [Firstname.]Lastname -s role
         /// e.g.
@@ -163,7 +218,6 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             p.GetPosition(this);
             p.GetSquadNumber(this);
             p.AddPlayer();
-           
         }
 
         /// <summary>
@@ -184,6 +238,10 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     Exit();
                 else
                     Console.WriteLine("Error: incorrect syntax");
+            }
+            else
+            {
+                Console.WriteLine("Error: not logged in");
             }
         }
 
@@ -242,7 +300,6 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             this.Command = Commands.none;
             this.Options.Clear();
             this.Parameters.Clear();
-
         }
     } 
 }

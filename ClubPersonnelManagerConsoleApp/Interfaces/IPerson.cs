@@ -13,29 +13,4 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
         string LastName { get; set; }
         void GetName(UserInput u);
     }
-
 }
-
-/*
- 
-     
-     abstract class Personnel
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-    }
-
-    class Player : Personnel
-    {
-        public string Position { get; set; }
-        public int SquadNumber { get; set; }
-    }
-
-    class Staff : Personnel
-    {
-        public string Role { get; set; }
-    }
-     
-     
-     
-     */

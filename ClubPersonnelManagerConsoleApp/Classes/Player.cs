@@ -17,12 +17,18 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             M,  /* Midfielder */
             F   /* Forward */
         }
+
         public string Position { get; set; }
         public string SquadNumber { get; set; }
+        public int Id { get; set; }
+
+        
+         
 
         //Constructor
         public Player()
         {
+            this.Id = int.Parse(File.ReadLines(Constants.PLAYER_CSV_FILE).Last().Split(',')[0]) + 1;
             this.FirstName = string.Empty;
             this.LastName = string.Empty;
             this.Position = string.Empty;
@@ -74,10 +80,10 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             string player;
             string players = Constants.PLAYER_CSV_FILE;
-            if (this.FirstName != string.Empty) 
-                player = string.Format("{0} {1},{2},{3}\n", this.FirstName, this.LastName, this.Position, this.SquadNumber);
+            if (this.FirstName != string.Empty)
+                player = string.Format("{0},{1} {2},{3},{4}\n", Id.ToString(), this.FirstName, this.LastName, this.Position, this.SquadNumber);
             else
-                player = string.Format("{0},{1},{2}\n",this.LastName,this.Position,this.SquadNumber);
+                player = string.Format("{0},{1},{2},{3}\n", this.Id.ToString(), this.LastName, this.Position, this.SquadNumber);
 
             try
             {
