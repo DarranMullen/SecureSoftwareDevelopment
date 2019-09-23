@@ -11,7 +11,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
+        //TODO test with multiple name variations
         public void GetName(UserInput u)
         {
             string[] names;

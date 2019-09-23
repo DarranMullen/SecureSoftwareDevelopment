@@ -22,9 +22,6 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public string SquadNumber { get; set; }
         public int Id { get; set; }
 
-        
-         
-
         //Constructor
         public Player()
         {

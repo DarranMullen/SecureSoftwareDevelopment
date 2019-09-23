@@ -145,6 +145,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 Console.WriteLine("Error: Only admins can delete personnel");
         }
 
+        //TODO DELETE STAFF
         private void DeleteStaff()
         {
             //step through each staff until you get a matching id
@@ -152,6 +153,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             //save the file
         }
 
+        //TODO DELETER PLAYER
         private void DeletePlayer()
         {
             //step through each player until you get a matching id
@@ -165,10 +167,51 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         /// </summary>
         private void Help()
         {
-            Console.WriteLine("Valid Commands");
-            foreach (var c in Enum.GetValues(typeof(Commands)))
-                if (c.ToString() != "none")
-                    Console.WriteLine(c.ToString());
+            if (RawTextArr.Length == 2) 
+            {
+                Enum.TryParse(RawTextArr[1], out Commands command);
+
+                switch (command)
+                {
+                    case Commands.none:
+                        break;
+                    case Commands.login:
+                        Console.WriteLine(Constants.LOGIN_SYNTAX);
+                        break;
+                    case Commands.logout:
+                        Console.WriteLine(Constants.LOGOUT_SYNTAX);
+                        break;
+                    case Commands.exit:
+                        Console.WriteLine(Constants.EXIT_SYNTAX);
+                        break;
+                    case Commands.help:
+                        Console.WriteLine(Constants.HELP_SYNTAX);
+                        break;
+                    case Commands.add:
+                        Console.WriteLine(Constants.ADD_SYNTAX);
+                        break;
+                    case Commands.find:
+                        Console.WriteLine(Constants.FIND_SYNTAX);
+                        break;
+                    case Commands.edit:
+                        Console.WriteLine(Constants.EDIT_SYNTAX);
+                        break;
+                    case Commands.delete:
+                        Console.WriteLine(Constants.DELETE_SYNTAX);
+                        break;
+                    default:
+                        Console.WriteLine("!");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Valid Commands");
+                foreach (var c in Enum.GetValues(typeof(Commands)))
+                    if (c.ToString() != "none")
+                        Console.WriteLine(c.ToString());
+            }
+            
         }
 
         /// <summary>
