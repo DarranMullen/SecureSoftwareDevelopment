@@ -16,7 +16,7 @@ namespace ClubPersonnelManagerConsoleApp
         public const string ADD_SYNTAX = "add [f.] {-p p n|-s r}\nf: first name(s)\nl: last name(s)\n(for multiple names dont use spaces and capitalise each name\np: indicates adding a player\n-s: indicates adding staff\np: position\nn: number\nr: role";
         public const string FIND_SYNTAX = "";
         public const string EDIT_SYNTAX = "";
-        public const string DELETE_SYNTAX = "delete {-s|-p} s\n-s: indicates deleting a player\n-s: indicated deleting staff\ns: squad number";
+        public const string DELETE_SYNTAX = "delete {-s|-p} \n-s: indicates deleting a player\n-s: indicated deleting staff\ni: id number";
 
         //FILES
         public const string USER_CSV_FILE = "C:\\Users\\Darran\\source\\repos\\Secure Software Development\\ClubPersonnelManager\\ClubPersonnelManagerConsoleApp\\bin\\Debug\\UserDB.csv";

@@ -21,9 +21,9 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             exit,//done
             help,//done
             add,//done
-            find,//TODO find player and staff
-            edit,//TODO edit player and staff
-            delete//TODO delete player and staff
+            find,
+            edit,
+            delete//done
         }
 
         /// <summary>
@@ -112,8 +112,10 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     Add();
                     break;
                 case Commands.find:
+                    Find();
                     break;
                 case Commands.edit:
+                    Edit();
                     break;
                 case Commands.delete:
                     Delete();
@@ -123,6 +125,18 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     break;
             }
         }
+        //TODO EDIT
+        private void Edit()
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO FIND
+        private void Find()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// delete {-s|-p} squadnumber
         /// </summary>
@@ -130,36 +144,19 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             if (Globals.User.IsAdmin)
             {
-                if (this.RawTextArr[1] == "-p")
-                {
-                    DeletePlayer();
-                }
-                else if (this.RawTextArr[1] == "-s")
-                {
-                    DeleteStaff();
-                }
-                else
-                    Console.WriteLine("Error: incorrect syntax");
+                DeletePerson();
             }
             else
                 Console.WriteLine("Error: Only admins can delete personnel");
         }
 
-        //TODO DELETE STAFF
-        private void DeleteStaff()
+        private void DeletePerson()
         {
-            //step through each staff until you get a matching id
-            //delete this line
-            //save the file
-        }
-
-        //TODO DELETER PLAYER
-        private void DeletePlayer()
-        {
-            //step through each player until you get a matching id
-            //delete this line
-            //save the file
-
+            if (int.TryParse(this.RawTextArr[2], out int id))
+            {
+                Person p = new Person();
+                p.DeletePerson(id, this.RawTextArr[1][1]);
+            }
         }
 
         /// <summary>

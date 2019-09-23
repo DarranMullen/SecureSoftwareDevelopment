@@ -25,6 +25,8 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         /// </summary>
         public Staff()
         {
+            //add John.Achterberg -s C
+            this.Id = int.Parse(File.ReadLines(Constants.STAFF_CSV_FILE).Last().Split(',')[0]) + 1;
             this.FirstName = string.Empty;
             this.LastName = string.Empty;
             this.Role = string.Empty;
@@ -67,9 +69,9 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 string staff;
                 string staffs = Constants.STAFF_CSV_FILE;
                 if (this.FirstName != string.Empty)
-                    staff = string.Format("{0} {1},{2}\n", this.FirstName, this.LastName, this.Role);
+                    staff = string.Format("{0},{1} {2},{3}\n", this.Id.ToString(), this.FirstName, this.LastName, this.Role);
                 else
-                    staff = string.Format("{0},{1}\n", this.LastName, this.Role);
+                    staff = string.Format("{0},{1},{2}\n", this.Id.ToString(), this.LastName, this.Role);
 
                 try
                 {

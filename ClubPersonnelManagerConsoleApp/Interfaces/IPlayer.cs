@@ -9,7 +9,6 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
 {
     interface IPlayer
     {
-        int Id { get; set; }
         string Position { get; set; }
         string SquadNumber { get; set; }
 
