@@ -10,6 +10,7 @@ namespace ClubPersonnelManagerConsoleApp
     class Program
     {
         //TODO CACHE FILES LOCALLY TO PREVENT MULTIPLE CALLS TO FILE
+        //TODO DISPLAY ALL COMMAND
         static void Main()
         {
             Globals.User = new User();

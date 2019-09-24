@@ -14,5 +14,6 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
         string LastName { get; set; }
         void GetName(UserInput u);
         void DeletePerson(int i, char t);
+        void FindPerson(char t, string n);
     }
 }

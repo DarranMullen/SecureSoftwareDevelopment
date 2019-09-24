@@ -131,10 +131,10 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             throw new NotImplementedException();
         }
 
-        //TODO FIND
         private void Find()
         {
-            throw new NotImplementedException();
+            Person p = new Person();
+            p.FindPerson(this.RawTextArr[1][1], this.RawTextArr[2]);
         }
 
         /// <summary>
