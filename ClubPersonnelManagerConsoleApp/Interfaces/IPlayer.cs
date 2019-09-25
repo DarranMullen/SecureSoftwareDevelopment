@@ -10,10 +10,12 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
     interface IPlayer
     {
         string Position { get; set; }
-        string SquadNumber { get; set; }
+        int SquadNumber { get; set; }
 
-        void GetPosition(UserInput u);
-        void GetSquadNumber(UserInput u);
-        void AddPlayer();
+        void GetPosition();
+        void GetSquadNumber();
+
+        void AddPlayer(bool isEdit);
+        void EditPlayer();
     }
 }

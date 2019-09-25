@@ -14,6 +14,8 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
         bool IsAdmin { get; set; }
         bool Authenticated { get; set; }
 
-        void Login(UserInput userInput);
+        void Login();
+        void Logout();
+        void Exit();
     }
 }

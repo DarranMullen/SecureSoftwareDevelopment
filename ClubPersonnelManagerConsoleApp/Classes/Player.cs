@@ -19,81 +19,113 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         }
 
         public string Position { get; set; }
-        public string SquadNumber { get; set; }
+        public int SquadNumber { get; set; }
 
         //Constructor
         public Player()
         {
-            this.Id = int.Parse(File.ReadLines(Constants.PLAYER_CSV_FILE).Last().Split(',')[0]) + 1;
-            this.FirstName = string.Empty;
-            this.LastName = string.Empty;
-            this.Position = string.Empty;
-            this.SquadNumber = string.Empty;
+            Globals.Player = this;
+            Globals.Player.Id = int.Parse(File.ReadLines(Constants.PLAYER_CSV_FILE).Last().Split(',')[0]) + 1;
+            Globals.Player.Name = Globals.UserInput.RawTextArr[1];
+            GetPosition();
+            GetSquadNumber();
+        }
+        public Player(int id)
+        {
+            Globals.Player = this;
+            Globals.Player.Id = id;
         }
 
-        public void GetPosition(UserInput u)
+        public void GetPosition()
         {
-            if (Enum.TryParse(u.RawTextArr[3], out Positions p))
+            if (Enum.TryParse(Globals.UserInput.RawTextArr[3], out Positions pos))
             {
-                switch (p)
+                switch (pos)
                 {
                     case Positions.G:
-                        this.Position = "Goalkeeper";
+                        Globals.Player.Position = "Goalkeeper";
                         break;
                     case Positions.D:
-                        this.Position = "Defender";
+                        Globals.Player.Position = "Defender";
                         break;
                     case Positions.M:
-                        this.Position = "Midfielder";
+                        Globals.Player.Position = "Midfielder";
                         break;
                     case Positions.F:
-                        this.Position = "Forward";
+                        Globals.Player.Position = "Forward";
                         break;
                     default:
-                        this.Position = string.Empty;
+                        Globals.Player.Position = string.Empty;
                         break;
                 }
             }
             else
             {
-                this.Position = string.Empty;
+                Globals.Player.Position = string.Empty;
                 Console.WriteLine("Error: invalid position");
             }
         }
 
-        public void GetSquadNumber(UserInput u)
+        public void GetSquadNumber()
         {
-            if (int.TryParse(u.RawTextArr[4], out int number))
-                this.SquadNumber = number.ToString();
+            if (int.TryParse(Globals.UserInput.RawTextArr[4], out int num))
+                this.SquadNumber = num;
             else
             {
-                this.SquadNumber = string.Empty;
-                Console.WriteLine("Error: incorrect syntax");
+                this.SquadNumber = -1;
+                Console.WriteLine("Error: invalid squad number");
             }
         }
 
-        public void AddPlayer()
+        public void AddPlayer(bool isEdit = false)
         {
-            string player;
-            string players = Constants.PLAYER_CSV_FILE;
-            if (this.FirstName != string.Empty)
-                player = string.Format("{0},{1} {2},{3},{4}\n", Id.ToString(), this.FirstName, this.LastName, this.Position, this.SquadNumber);
-            else
-                player = string.Format("{0},{1},{2},{3}\n", this.Id.ToString(), this.LastName, this.Position, this.SquadNumber);
+            string file = Constants.PLAYER_CSV_FILE;
+            string line = string.Format("{0},{1},{2},{3}\n", Globals.Player.Id.ToString(), Globals.Player.Name, Globals.Player.Position, Globals.Player.SquadNumber);
 
             try
             {
-                File.AppendAllText(players, player);
-                Console.WriteLine("Player added");
+                File.AppendAllText(file, line);
+                if (!isEdit)
+                    Console.WriteLine("Player added");
+                string[] lines = File.ReadAllLines(file);
+                Array.Sort(lines);
+                File.WriteAllLines(file, lines);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public void EditPlayer()
+        {
+            foreach (var option in Globals.UserInput.Options)
+            {
+                switch (option.Key)
+                {
+                    case "n":
+                        Globals.Player.Name = option.Value;
+                        break;
+                    case "p":
+                        Globals.Player.Position = option.Value;
+                        break;
+                    case "s":
+                        Globals.Player.SquadNumber = int.Parse(option.Value);
+                        break;
+                    default:
+                        Console.WriteLine("ERROR");
+                        break;
+                }
+                
+            }
+            Globals.Person = new Person();
+            DeletePerson(true);
+            AddPlayer(true);
+            Globals.Player = null;
 
         }
 
-        
+
     }
 }
         

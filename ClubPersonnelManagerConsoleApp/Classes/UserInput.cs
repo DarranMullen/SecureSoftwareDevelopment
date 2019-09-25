@@ -56,20 +56,25 @@ namespace ClubPersonnelManagerConsoleApp.Classes
 /// </summary>
         public UserInput()
         {
-            this.Options = new Dictionary<string, string>();
-            this.Parameters = new List<string>();
+            Globals.UserInput = this;
+
+            Globals.UserInput.Options = new Dictionary<string, string>();
+            Globals.UserInput.Parameters = new List<string>();
+
+
             if (Globals.User.Authenticated)
                 Console.Write("{0}> ",Globals.User.Username);
             else
                 Console.Write("> ");
-            this.RawText = Console.ReadLine().Trim();
-            if (this.RawText != "") 
+            Globals.UserInput.RawText = Console.ReadLine().Trim();
+
+
+            if (Globals.UserInput.RawText != "") 
             {
-                this.RawTextArr = this.RawText.Split(' ');
+                Globals.UserInput.RawTextArr = Globals.UserInput.RawText.Split(' ');
                 GetCommandName();
                 ProcessCommand();
             }
-            
         }
 
         /// <summary>
@@ -79,11 +84,11 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             string strCommand = string.Empty;
 
-            if (!this.RawText.Equals(strCommand))
-                strCommand = this.RawTextArr[0];
+            if (!Globals.UserInput.RawText.Equals(strCommand))
+                strCommand = Globals.UserInput.RawTextArr[0];
 
             Enum.TryParse(strCommand, out Commands command);
-            this.Command = command;
+            Globals.UserInput.Command = command;
         }
 
         /// <summary>
@@ -97,13 +102,13 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     None();
                     break;
                 case Commands.login:
-                    Login();
+                    Globals.User.Login();
                     break;
                 case Commands.logout:
-                    Logout();
+                    Globals.User.Logout();
                     break;
                 case Commands.exit:
-                    Exit();
+                    Globals.User.Exit();
                     break;
                 case Commands.help:
                     Help();
@@ -128,13 +133,51 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         //TODO EDIT
         private void Edit()
         {
-            throw new NotImplementedException();
+            bool error = false;
+            for (int i = 0; i < Globals.UserInput.RawTextArr.Length; i++)
+            {
+                if (Globals.UserInput.RawTextArr[i].Contains(':'))
+                {
+                    string key = Globals.UserInput.RawTextArr[i].Split(':')[0];
+                    string value = Globals.UserInput.RawTextArr[i].Split(':')[1];
+                    Globals.UserInput.Options.Add(key, value);
+                }
+            }
+            if (Globals.UserInput.Options == null)
+            {
+                Console.WriteLine("ERROR");
+                error = true;
+            }
+
+            if (!error)
+            {
+                if (Globals.User.IsAdmin)
+                {
+                    Globals.Person = new Person();
+                    Globals.Person.FindPersonById();
+                }
+                else
+                {
+                    Console.WriteLine("ADMIN ONLY");
+                }
+
+                if (Globals.UserInput.RawTextArr[1][1] == 'p')
+                {
+                    Globals.Player.EditPlayer();
+                }
+                else if (Globals.UserInput.RawTextArr[1][1] == 's')
+                {
+                    Globals.Staff.EditStaff();
+                }
+            }
+
+            
         }
 
         private void Find()
         {
-            Person p = new Person();
-            p.FindPerson(this.RawTextArr[1][1], this.RawTextArr[2]);
+            Globals.Person = new Person();
+            Globals.Person.FindPersonByName();
         }
 
         /// <summary>
@@ -144,19 +187,11 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             if (Globals.User.IsAdmin)
             {
-                DeletePerson();
+                Globals.Person = new Person();
+                Globals.Person.DeletePerson();
             }
             else
                 Console.WriteLine("Error: Only admins can delete personnel");
-        }
-
-        private void DeletePerson()
-        {
-            if (int.TryParse(this.RawTextArr[2], out int id))
-            {
-                Person p = new Person();
-                p.DeletePerson(id, this.RawTextArr[1][1]);
-            }
         }
 
         /// <summary>
@@ -164,9 +199,9 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         /// </summary>
         private void Help()
         {
-            if (RawTextArr.Length == 2) 
+            if (Globals.UserInput.RawTextArr.Length == 2) 
             {
-                Enum.TryParse(RawTextArr[1], out Commands command);
+                Enum.TryParse(Globals.UserInput.RawTextArr[1], out Commands command);
 
                 switch (command)
                 {
@@ -218,109 +253,21 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             if (Globals.User.IsAdmin)
             {
-                if (this.RawTextArr[2] == "-p") 
+                if (Globals.UserInput.RawTextArr[2] == "-p")
                 {
-                    AddPlayer();
+                    Globals.Player = new Player();
+                    Globals.Player.AddPlayer();
                 }
-                else if (this.RawTextArr[2] == "-s")
+                else if (Globals.UserInput.RawTextArr[2] == "-s")
                 {
-                    AddStaff();
+                    Globals.Staff = new Staff();
+                    Globals.Staff.AddStaff();
                 }
                 else
                     Console.WriteLine("Error: incorrect syntax");
             }
             else
                 Console.WriteLine("Error: Only admins can add personnel");
-        }
-   
-        /// <summary>
-        /// add [Firstname.]Lastname -s role
-        /// e.g.
-        /// add Jurgen.Klopp -s m 
-        /// </summary>
-        private void AddStaff()
-        {
-            Staff s = new Staff();
-            s.GetName(this);
-            s.GetRole(this);
-            s.AddStaff();
-        }
-
-        /// <summary>
-        /// add [Firstname.]Lastname -p position squadnumber
-        /// e.g.
-        /// add Allison.Becker -p g 1
-        /// </summary>
-        private void AddPlayer()
-        {
-            Player p = new Player();
-            p.GetName(this);
-            p.GetPosition(this);
-            p.GetSquadNumber(this);
-            p.AddPlayer();
-        }
-
-        /// <summary>
-        /// logout [e]
-        /// </summary>
-        private void Logout()
-        {
-            if (Globals.User.Authenticated)
-            {
-                if (this.RawTextArr.Length == 1)
-                {
-                    Globals.User.Authenticated = false;
-                    Globals.User.IsAdmin = false;
-                    Globals.User.Username = string.Empty;
-                    Globals.User.Password = string.Empty;
-                }
-                else if ((this.RawTextArr.Length == 2) && (this.RawTextArr[1] == "e")) 
-                    Exit();
-                else
-                    Console.WriteLine("Error: incorrect syntax");
-            }
-            else
-            {
-                Console.WriteLine("Error: not logged in");
-            }
-        }
-
-        /// <summary>
-        /// login username password
-        /// </summary>
-        private void Login()
-        {
-            if (!Globals.User.Authenticated)
-            {
-                string[] arr = this.RawText.Split(' ');
-                if (arr.Length != 3)
-                {
-                    Console.WriteLine("Error: incorrect syntax");
-                }
-                else
-                    for (int i = 1; i < arr.Length; i++)
-                        this.Parameters.Add(arr[i]);
-
-            }
-            else
-            {
-                Console.WriteLine("Error: user already logged in.");
-                Console.Write("Would you like to logout now? (y/n): ");
-                
-                if (Console.ReadKey().Key==ConsoleKey.Y)
-                {
-                    Logout();
-                }
-            }
-            Globals.User.Login(this);
-        }
-
-        /// <summary>
-        /// exit
-        /// </summary>
-        private void Exit()
-        {
-            Environment.Exit(0);
         }
 
         /// <summary>
@@ -331,15 +278,5 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             Console.WriteLine("Error: Command not found");
         }
 
-        /// <summary>
-        /// clear
-        /// </summary>
-        public void Clear()
-        {
-            this.RawText = string.Empty;
-            this.Command = Commands.none;
-            this.Options.Clear();
-            this.Parameters.Clear();
-        }
     } 
 }

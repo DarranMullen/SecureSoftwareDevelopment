@@ -10,10 +10,11 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
     interface IPerson
     {
         int Id { get; set; }
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        void GetName(UserInput u);
-        void DeletePerson(int i, char t);
-        void FindPerson(char t, string n);
+        string Name { get; set; }
+
+        void GetId();
+        void DeletePerson(bool isEdit);
+        void FindPersonByName();
+        void FindPersonById();
     }
 }

@@ -19,7 +19,6 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
 
         void GetCommandName();
         void ProcessCommand();
-        void Clear();
     }
 
 

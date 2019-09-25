@@ -25,66 +25,91 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         /// </summary>
         public Staff()
         {
+            Globals.Staff = this;
             //add John.Achterberg -s C
-            this.Id = int.Parse(File.ReadLines(Constants.STAFF_CSV_FILE).Last().Split(',')[0]) + 1;
-            this.FirstName = string.Empty;
-            this.LastName = string.Empty;
-            this.Role = string.Empty;
+            Globals.Staff.Id = int.Parse(File.ReadLines(Constants.STAFF_CSV_FILE).Last().Split(',')[0]) + 1;
+            Globals.Staff.Name = Globals.UserInput.RawTextArr[1];
+            GetRole();
         }
 
-        public void GetRole(UserInput u)
+        public Staff(int id)
         {
-            if (Enum.TryParse(u.RawTextArr[3], out Roles r))
+            Globals.Staff = this;
+            Globals.Staff.Id = id;
+        }
+
+        public void GetRole()
+        {
+            if (Enum.TryParse(Globals.UserInput.RawTextArr[3], out Roles r))
             {
                 switch (r)
                 {
                     case Roles.M:
-                        this.Role = "Manager";
+                        Globals.Staff.Role = "Manager";
                         break;
                     case Roles.A:
-                        this.Role = "Assistant";
+                        Globals.Staff.Role = "Assistant";
                         break;
                     case Roles.C:
-                        this.Role = "Coach";
+                        Globals.Staff.Role = "Coach";
                         break;
                     case Roles.S:
-                        this.Role = "Scout";
+                        Globals.Staff.Role = "Scout";
                         break;
                     default:
-                        this.Role = string.Empty;
+                        Globals.Staff.Role = string.Empty;
                         break;
                 }
             }
             else
             {
-                this.Role = string.Empty;
+                Globals.Staff.Role = string.Empty;
                 Console.WriteLine("Error: invalid role");
             }
         }
 
-        public void AddStaff()
+        public void AddStaff(bool isEdit = false)
         {
-            if ((!this.LastName.Equals(string.Empty)) && (!this.Role.Equals(string.Empty)))
-            {
-                string staff;
-                string staffs = Constants.STAFF_CSV_FILE;
-                if (this.FirstName != string.Empty)
-                    staff = string.Format("{0},{1} {2},{3}\n", this.Id.ToString(), this.FirstName, this.LastName, this.Role);
-                else
-                    staff = string.Format("{0},{1},{2}\n", this.Id.ToString(), this.LastName, this.Role);
+            string file = Constants.STAFF_CSV_FILE;
+            string line = string.Format("{0},{1},{2}\n", Globals.Staff.Id.ToString(), Globals.Staff.Name, Globals.Staff.Role);
 
-                try
-                {
-                    File.AppendAllText(staffs, staff);
+            try
+            {
+                File.AppendAllText(file, line);
+                if (!isEdit)
                     Console.WriteLine("Staff added");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+                string[] lines = File.ReadAllLines(file);
+                Array.Sort(lines);
+                File.WriteAllLines(file, lines);
             }
-            else
-                Console.WriteLine("Error: Staff was not added");
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            Globals.Staff = null;
+
+        }
+
+        public void EditStaff()
+        {
+            foreach (var option in Globals.UserInput.Options)
+            {
+                switch (option.Key)
+                {
+                    case "n":
+                        Globals.Staff.Name = option.Value;
+                        break;
+                    case "r":
+                        Globals.Staff.Role = option.Value;
+                        break;
+                    default:
+                        Console.WriteLine("ERROR");
+                        break;
+                }
+                Globals.Person = new Person();
+                DeletePerson(true);
+                AddStaff(true);
+            }
         }
     }
 }

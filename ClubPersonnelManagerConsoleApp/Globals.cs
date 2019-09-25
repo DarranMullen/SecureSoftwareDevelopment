@@ -11,8 +11,10 @@ namespace ClubPersonnelManagerConsoleApp
     class Globals
     {
         public static User User;
-
-        
+        public static UserInput UserInput;
+        public static Player Player;
+        public static Staff Staff;
+        public static Person Person;
 
         
 

@@ -11,7 +11,8 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
     {
         string Role { get; set; }
 
-        void GetRole(UserInput u);
-        void AddStaff();
+        void GetRole();
+        void AddStaff(bool isEdit);
+        void EditStaff();
     }
 }

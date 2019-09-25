@@ -13,11 +13,12 @@ namespace ClubPersonnelManagerConsoleApp
         //TODO DISPLAY ALL COMMAND
         static void Main()
         {
-            Globals.User = new User();
             do
             {
-                UserInput userInput = new UserInput();
-                userInput.Clear();
+                if (Globals.User == null)
+                    Globals.User = new User();
+                Globals.UserInput = new UserInput();
+                Globals.UserInput = null;
             } while (true);
         }
 
