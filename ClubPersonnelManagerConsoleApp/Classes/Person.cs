@@ -22,14 +22,11 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public void GetId()
         {
             if (int.TryParse(Globals.UserInput.RawTextArr[2], out int id))
-            {
                 Globals.Person.Id = id;
-            }
             else
-            {
                 Globals.Person.Id = -1;
-            }
         }
+
         public void DeletePerson(bool isEdit = false)
         {
             if (Globals.Person.Id != -1) 
@@ -38,7 +35,6 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 bool invalidResponse = false;
                 string file = "";
                 List<string> list = new List<string>();
-                //TRY GET FILE AND LIST OF LINES IN IT
                 try
                 {
                     if (Globals.UserInput.RawTextArr[1][1] == 'p')
@@ -52,17 +48,13 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                         list = File.ReadLines(file).ToList();
                     }
                     else
-                    {
-                        Console.WriteLine("Syntax Error");
-                    }
-
+                        Console.WriteLine(Constants.SYNTAX_ERROR);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
 
-                //SEARCH FOR PERSON BY ID
                 for (int i = 0; i < list.Count; i++)
                 {
                     if (list[i].Split(',')[0].Equals(Globals.Person.Id.ToString()))
@@ -80,7 +72,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                                     try
                                     {
                                         File.WriteAllLines(file, list);
-                                        Console.WriteLine("Delete successful");
+                                        Console.WriteLine(Constants.DELETE_SUCCESSFUL_FEEDBACK);
                                     }
                                     catch (Exception ex)
                                     {
@@ -88,11 +80,11 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                                     }
                                 }
                                 else if (key == ConsoleKey.N)
-                                    Console.WriteLine("Delete aborted");
+                                    Console.WriteLine(Constants.DELETE_ABORT_FEEDBACK);
                                 else
                                 {
                                     invalidResponse = true;
-                                    Console.WriteLine("Invalid Response");
+                                    Console.WriteLine(Constants.INVALID_RESPONSE_ERROR);
                                 }
                                 i = list.Count;
                             } while (invalidResponse);
@@ -114,17 +106,11 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     }
                 }
 
-                //IF NO PERSON FOUND
                 if (!personFound)
-                {
-                    Console.WriteLine("No match found");
-                }
+                    Console.WriteLine(Constants.NO_MATCH_FEEBACK);
             }
             else
-            {
-                Console.WriteLine("Invalid ID");
-            }
-           // Globals.Person = null;
+                Console.WriteLine(Constants.INVALID_ID_ERROR);
         }
 
         public void FindPersonById()
@@ -147,10 +133,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                         list = File.ReadLines(file).ToList();
                     }
                     else
-                    {
-                        Console.WriteLine("Syntax Error");
-                    }
-
+                        Console.WriteLine(Constants.SYNTAX_ERROR);
                 }
                 catch (Exception ex)
                 {
@@ -179,28 +162,30 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                             break;
                         }
                         else
-                        {
-                            Console.WriteLine("ERROR");
-                        }
-                        
+                            Console.WriteLine(Constants.INTERNAL_ERROR);
                     }
                 }
-
-
             }
             else
-            {
-                Console.WriteLine("Invalid ID");
-            }
+                Console.WriteLine(Constants.INVALID_ID_ERROR);
             Globals.Person = null;
             }
 
         public void FindPersonByName()
         {
-            Globals.Person.Name = Globals.UserInput.RawTextArr[2];
+            string[] arr;
+            string playerId;
+            string playerName;
+            string playerPosition;
+            string playerSquadNumber;
+            string staffId;
+            string staffName;
+            string staffRole;
+            string file = "";
             List<string> foundPeople = new List<string>();
 
-            string file = "";
+            Globals.Person.Name = Globals.UserInput.RawTextArr[2];
+            
             List<string> list = new List<string>();
             try
             {
@@ -215,10 +200,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     list = File.ReadLines(file).ToList();
                 }
                 else
-                {
-                    Console.WriteLine("Syntax Error");
-                }
-
+                    Console.WriteLine(Constants.SYNTAX_ERROR);
             }
             catch (Exception ex)
             {
@@ -229,19 +211,19 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 if (list[i].Split(',')[1].Contains(Globals.Person.Name))
                     foundPeople.Add(list[i]);
             if (foundPeople.Count < 1) 
-                Console.WriteLine("No match for that name in database");
+                Console.WriteLine(Constants.NO_MATCH_FEEBACK);
             else
             {
                 if (file == Constants.PLAYER_CSV_FILE)
                 {
-                    Console.WriteLine("{0,-5}{1,-25}{2,-25}{3,-5}", "ID","NAME","POSITION","SQUAD NUMBER");
+                    Console.WriteLine(Constants.PLAYER_LIST_TITLE);
                     foreach (var p in foundPeople)
                     {
-                        var arr = p.Split(',');
-                        string playerId = arr[0];
-                        string playerName = arr[1];
-                        string playerPosition = arr[2];
-                        string playerSquadNumber = arr[3];
+                        arr = p.Split(',');
+                        playerId = arr[0];
+                        playerName = arr[1];
+                        playerPosition = arr[2];
+                        playerSquadNumber = arr[3];
 
                         Console.WriteLine("{0,-5}{1,-25}{2,-25}{3,-5}", playerId, playerName, playerPosition, playerSquadNumber);
                     }
@@ -251,10 +233,10 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     Console.WriteLine("{0,-5}{1,-25}{2,-25}", "ID", "NAME", "ROLE");
                     foreach (var s in foundPeople)
                     {
-                        var arr = s.Split(',');
-                        string staffId = arr[0];
-                        string staffName = arr[1];
-                        string staffRole= arr[2];
+                        arr = s.Split(',');
+                        staffId = arr[0];
+                        staffName = arr[1];
+                        staffRole= arr[2];
 
                         Console.WriteLine("{0,-5}{1,-25}{2,-25}", staffId, staffName, staffRole);
                     }

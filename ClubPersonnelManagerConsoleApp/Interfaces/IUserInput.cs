@@ -16,7 +16,6 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
         Dictionary<string, string> Options { get; set; }
         List<string> Parameters { get; set; }
         
-
         void GetCommandName();
         void ProcessCommand();
     }

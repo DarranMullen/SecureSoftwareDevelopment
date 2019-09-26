@@ -16,52 +16,58 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public bool IsAdmin { get; set; }
         public bool Authenticated { get; set; }
 
-        //Constructor
-        public User()
-        {
-            this.Username = string.Empty;
-            this.Password = string.Empty;
-            this.IsAdmin = false;
-            this.Authenticated = false;
-        }
+        public User(){}
 
         public void Login()
         {
+            string[] arr;
+
             if (!Globals.User.Authenticated)
             {
-                string[] arr = Globals.UserInput.RawText.Split(' ');
+                arr = Globals.UserInput.RawText.Split(' ');
                 if (arr.Length != 3)
-                    Console.WriteLine("Error: incorrect syntax");
+                    Console.WriteLine(Constants.SYNTAX_ERROR);
                 else
                 {
                     for (int i = 1; i < arr.Length; i++)
                         Globals.UserInput.Parameters.Add(arr[i]);
-                    var users = File.ReadLines(Constants.USER_CSV_FILE);//TODO wrap in try
-                    foreach (var user in users)
+                    try
                     {
-                        if (user.Split(',')[0].Equals(Globals.UserInput.Parameters[0]) && user.Split(',')[1].Equals(Globals.UserInput.Parameters[1]))
-                        {
-                            Globals.User.Authenticated = true;
-                            Globals.User.Username = Globals.UserInput.Parameters[0];
-                            Globals.User.Password = Globals.UserInput.Parameters[1];
-                            if (bool.TryParse(user.Split(',')[2], out bool isAdmin))
-                                Globals.User.IsAdmin = bool.Parse((user.Split(',')[2]));
-                            break;
-                        }
+                        ValidateUser();
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }    
                 }
             }
             else
-            {
-                Console.WriteLine("Error: user already logged in.");
-                Console.Write("Would you like to logout now? (y/n): ");
+                LoginError();
+        }
 
-                if (Console.ReadKey().Key == ConsoleKey.Y)
+        private void ValidateUser()
+        {
+            IEnumerable<string> users = File.ReadLines(Constants.USER_CSV_FILE);
+            foreach (var user in users)
+            {
+                if (user.Split(',')[0].Equals(Globals.UserInput.Parameters[0]) && user.Split(',')[1].Equals(Globals.UserInput.Parameters[1]))
                 {
-                    Logout();
+                    Globals.User.Authenticated = true;
+                    Globals.User.Username = Globals.UserInput.Parameters[0];
+                    Globals.User.Password = Globals.UserInput.Parameters[1];
+                    if (bool.TryParse(user.Split(',')[2], out bool isAdmin))
+                        Globals.User.IsAdmin = bool.Parse((user.Split(',')[2]));
+                    break;
                 }
             }
+        }
 
+        private void LoginError()
+        {
+            Console.WriteLine(Constants.LOGIN_ERROR);
+            Console.Write(Constants.PROMPT_LOGOUT);
+            if (Console.ReadKey().Key == ConsoleKey.Y)
+                Logout();
         }
 
         public void Logout()
@@ -69,18 +75,14 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             if (Globals.User.Authenticated)
             {
                 if (Globals.UserInput.RawTextArr.Length == 1)
-                {
                     Globals.User = null;
-                }
                 else if ((Globals.UserInput.RawTextArr.Length == 2) && (Globals.UserInput.RawTextArr[1] == "e"))
                     Exit();
                 else
-                    Console.WriteLine("Error: incorrect syntax");
+                    Console.WriteLine(Constants.SYNTAX_ERROR);
             }
             else
-            {
                 Console.WriteLine("Error: not logged in");
-            }
         }
 
         public void Exit()

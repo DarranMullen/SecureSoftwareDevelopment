@@ -21,7 +21,6 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public string Position { get; set; }
         public int SquadNumber { get; set; }
 
-        //Constructor
         public Player()
         {
             Globals.Player = this;
@@ -30,6 +29,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             GetPosition();
             GetSquadNumber();
         }
+
         public Player(int id)
         {
             Globals.Player = this;
@@ -56,13 +56,14 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                         break;
                     default:
                         Globals.Player.Position = string.Empty;
+                        Console.WriteLine(Constants.INTERNAL_ERROR);
                         break;
                 }
             }
             else
             {
                 Globals.Player.Position = string.Empty;
-                Console.WriteLine("Error: invalid position");
+                Console.WriteLine(Constants.POSITION_ERROR);
             }
         }
 
@@ -73,7 +74,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             else
             {
                 this.SquadNumber = -1;
-                Console.WriteLine("Error: invalid squad number");
+                Console.WriteLine(Constants.SQUAD_NUMBER_ERROR);
             }
         }
 
@@ -81,13 +82,13 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             string file = Constants.PLAYER_CSV_FILE;
             string line = string.Format("{0},{1},{2},{3}\n", Globals.Player.Id.ToString(), Globals.Player.Name, Globals.Player.Position, Globals.Player.SquadNumber);
-
+            string[] lines;
             try
             {
                 File.AppendAllText(file, line);
                 if (!isEdit)
                     Console.WriteLine("Player added");
-                string[] lines = File.ReadAllLines(file);
+                lines = File.ReadAllLines(file);
                 Array.Sort(lines);
                 File.WriteAllLines(file, lines);
             }
@@ -113,19 +114,15 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                         Globals.Player.SquadNumber = int.Parse(option.Value);
                         break;
                     default:
-                        Console.WriteLine("ERROR");
+                        Console.WriteLine(Constants.INTERNAL_ERROR);
                         break;
                 }
-                
             }
             Globals.Person = new Person();
             DeletePerson(true);
             AddPlayer(true);
             Globals.Player = null;
-
         }
-
-
     }
 }
         

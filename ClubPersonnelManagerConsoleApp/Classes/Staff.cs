@@ -20,13 +20,9 @@ namespace ClubPersonnelManagerConsoleApp.Classes
 
         public string Role { get; set; }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
         public Staff()
         {
             Globals.Staff = this;
-            //add John.Achterberg -s C
             Globals.Staff.Id = int.Parse(File.ReadLines(Constants.STAFF_CSV_FILE).Last().Split(',')[0]) + 1;
             Globals.Staff.Name = Globals.UserInput.RawTextArr[1];
             GetRole();
@@ -58,13 +54,14 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                         break;
                     default:
                         Globals.Staff.Role = string.Empty;
+                        Console.WriteLine(Constants.INTERNAL_ERROR);
                         break;
                 }
             }
             else
             {
                 Globals.Staff.Role = string.Empty;
-                Console.WriteLine("Error: invalid role");
+                Console.WriteLine(Constants.ROLE_ERROR);
             }
         }
 
@@ -72,13 +69,13 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             string file = Constants.STAFF_CSV_FILE;
             string line = string.Format("{0},{1},{2}\n", Globals.Staff.Id.ToString(), Globals.Staff.Name, Globals.Staff.Role);
-
+            string[] lines;
             try
             {
                 File.AppendAllText(file, line);
                 if (!isEdit)
                     Console.WriteLine("Staff added");
-                string[] lines = File.ReadAllLines(file);
+                lines = File.ReadAllLines(file);
                 Array.Sort(lines);
                 File.WriteAllLines(file, lines);
             }
@@ -87,7 +84,6 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 Console.WriteLine(ex.Message);
             }
             Globals.Staff = null;
-
         }
 
         public void EditStaff()
@@ -103,7 +99,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                         Globals.Staff.Role = option.Value;
                         break;
                     default:
-                        Console.WriteLine("ERROR");
+                        Console.WriteLine(Constants.INTERNAL_ERROR);
                         break;
                 }
                 Globals.Person = new Person();

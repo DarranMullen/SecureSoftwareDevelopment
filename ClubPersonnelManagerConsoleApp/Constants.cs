@@ -18,6 +18,32 @@ namespace ClubPersonnelManagerConsoleApp
         public const string EDIT_SYNTAX = "";
         public const string DELETE_SYNTAX = "delete {-s|-p} \n-s: indicates deleting a player\n-s: indicated deleting staff\ni: id number";
 
+        //ERROR MESAGES
+        public const string SYNTAX_ERROR = "Error: Invalid Syntax";
+        public const string LOGIN_ERROR = "Error: Already logged in";
+        public const string LOGOUT_ERROR = "Error: Not logged in";
+        public const string NO_COMMAND_ERROR = "Error: No command found";
+        public const string INTERNAL_ERROR = "Internal Error";
+        public const string NOT_AUTHORISED_ERROR = "Error: Not Authorised";
+        public const string ROLE_ERROR = "Error: Invalid Role";
+        public const string POSITION_ERROR = "Error: Invalid Position";
+        public const string SQUAD_NUMBER_ERROR = "Error: Invalid Squad Number";
+        public const string INVALID_RESPONSE_ERROR = "Error: Invalid Response";
+        public const string INVALID_ID_ERROR = "Error: Invalid ID";
+
+        //FEEDBACK
+        public const string DELETE_SUCCESSFUL_FEEDBACK = "Deletion successful";
+        public const string DELETE_ABORT_FEEDBACK = "Deletion aborted";
+        public const string NO_MATCH_FEEBACK = "No Match Found";
+
+        //USER PROMPTS
+        public const string PROMPT_LOGOUT = "Logout? (y/n): ";
+
+        //HEADERS
+        public const string HELP_COMMAND_TITLE = "All commands";
+        public const string PLAYER_LIST_TITLE = "ID   NAME                     POSITION                 SQUADNUMBER";
+        
+
         //FILES
         public const string USER_CSV_FILE = "C:\\Users\\Darran\\source\\repos\\Secure Software Development\\ClubPersonnelManager\\ClubPersonnelManagerConsoleApp\\bin\\Debug\\UserDB.csv";
         public const string PLAYER_CSV_FILE = "C:\\Users\\Darran\\source\\repos\\Secure Software Development\\ClubPersonnelManager\\ClubPersonnelManagerConsoleApp\\bin\\Debug\\PlayerDB.csv";

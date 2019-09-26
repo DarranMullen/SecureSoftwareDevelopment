@@ -15,8 +15,5 @@ namespace ClubPersonnelManagerConsoleApp
         public static Player Player;
         public static Staff Staff;
         public static Person Person;
-
-        
-
     }
 }

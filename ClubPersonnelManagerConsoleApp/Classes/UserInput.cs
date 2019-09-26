@@ -15,61 +15,39 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         /// </summary>
         public enum Commands
         {
-            none,//done
-            login,//done
-            logout,//done
-            exit,//done
-            help,//done
-            add,//done
+            none,
+            login,
+            logout,
+            exit,
+            help,
+            add,
             find,
             edit,
-            delete//done
+            delete
         }
 
-        /// <summary>
-        /// what the user enters in console
-        /// </summary>
         public string RawText { get; set; }
-
-        /// <summary>
-        /// the raw text split into array 
-        /// </summary>
         public string[] RawTextArr { get; set; }
-
-        /// <summary>
-        /// raw text is converted into a Command
-        /// </summary>
         public Commands Command { get; set; }
+        public Dictionary<string, string> Options { get; set; }
+        public List<string> Parameters { get; set; }
 
         /// <summary>
-        /// Options are not required
+        /// Constructor
         /// </summary>
-        public Dictionary<string, string> Options { get; set; }
-        
-        /// <summary>
-        /// Parameters are required
-        /// </summary>
-        public List<string> Parameters { get; set; }
-        
-        /// <summary>
-/// Constructor
-/// </summary>
         public UserInput()
         {
             Globals.UserInput = this;
-
             Globals.UserInput.Options = new Dictionary<string, string>();
             Globals.UserInput.Parameters = new List<string>();
 
-
             if (Globals.User.Authenticated)
-                Console.Write("{0}> ",Globals.User.Username);
+                Console.Write("{0}> ", Globals.User.Username);
             else
                 Console.Write("> ");
             Globals.UserInput.RawText = Console.ReadLine().Trim();
 
-
-            if (Globals.UserInput.RawText != "") 
+            if (Globals.UserInput.RawText != "")
             {
                 Globals.UserInput.RawTextArr = Globals.UserInput.RawText.Split(' ');
                 GetCommandName();
@@ -99,7 +77,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             switch (this.Command)
             {
                 case Commands.none:
-                    None();
+                    Console.WriteLine(Constants.NO_COMMAND_ERROR);
                     break;
                 case Commands.login:
                     Globals.User.Login();
@@ -130,22 +108,25 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     break;
             }
         }
-        //TODO EDIT
+
+        /// <summary>
+        /// edit {-p:|-s} id {n:name|p:position|s:squadnumber|r:role}
+        /// </summary>
         private void Edit()
         {
+            string key;
+            string value;
             bool error = false;
             for (int i = 0; i < Globals.UserInput.RawTextArr.Length; i++)
-            {
                 if (Globals.UserInput.RawTextArr[i].Contains(':'))
                 {
-                    string key = Globals.UserInput.RawTextArr[i].Split(':')[0];
-                    string value = Globals.UserInput.RawTextArr[i].Split(':')[1];
+                    key = Globals.UserInput.RawTextArr[i].Split(':')[0];
+                    value = Globals.UserInput.RawTextArr[i].Split(':')[1];
                     Globals.UserInput.Options.Add(key, value);
                 }
-            }
             if (Globals.UserInput.Options == null)
             {
-                Console.WriteLine("ERROR");
+                Console.WriteLine(Constants.SYNTAX_ERROR);
                 error = true;
             }
 
@@ -157,23 +138,20 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     Globals.Person.FindPersonById();
                 }
                 else
-                {
-                    Console.WriteLine("ADMIN ONLY");
-                }
+                    Console.WriteLine(Constants.NOT_AUTHORISED_ERROR);
 
                 if (Globals.UserInput.RawTextArr[1][1] == 'p')
-                {
                     Globals.Player.EditPlayer();
-                }
                 else if (Globals.UserInput.RawTextArr[1][1] == 's')
-                {
                     Globals.Staff.EditStaff();
-                }
             }
 
             
         }
 
+        /// <summary>
+        /// find {-p|-s} name
+        /// </summary>
         private void Find()
         {
             Globals.Person = new Person();
@@ -191,7 +169,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 Globals.Person.DeletePerson();
             }
             else
-                Console.WriteLine("Error: Only admins can delete personnel");
+                Console.WriteLine(Constants.NOT_AUTHORISED_ERROR);
         }
 
         /// <summary>
@@ -202,10 +180,10 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             if (Globals.UserInput.RawTextArr.Length == 2) 
             {
                 Enum.TryParse(Globals.UserInput.RawTextArr[1], out Commands command);
-
                 switch (command)
                 {
                     case Commands.none:
+                        None();
                         break;
                     case Commands.login:
                         Console.WriteLine(Constants.LOGIN_SYNTAX);
@@ -232,16 +210,16 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                         Console.WriteLine(Constants.DELETE_SYNTAX);
                         break;
                     default:
-                        Console.WriteLine("!");
+                        Console.WriteLine(Constants.INTERNAL_ERROR);
                         break;
                 }
             }
             else
             {
-                Console.WriteLine("Valid Commands");
-                foreach (var c in Enum.GetValues(typeof(Commands)))
-                    if (c.ToString() != "none")
-                        Console.WriteLine(c.ToString());
+                Console.WriteLine(Constants.HELP_COMMAND_TITLE);
+                foreach (Commands command in Enum.GetValues(typeof(Commands)))
+                    if (command != Commands.none)
+                        Console.WriteLine(command.ToString());
             }
             
         }
@@ -253,30 +231,21 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             if (Globals.User.IsAdmin)
             {
-                if (Globals.UserInput.RawTextArr[2] == "-p")
+                if (Globals.UserInput.RawTextArr[2][1] == 'p')
                 {
                     Globals.Player = new Player();
                     Globals.Player.AddPlayer();
                 }
-                else if (Globals.UserInput.RawTextArr[2] == "-s")
+                else if (Globals.UserInput.RawTextArr[2][1] == 's')
                 {
                     Globals.Staff = new Staff();
                     Globals.Staff.AddStaff();
                 }
                 else
-                    Console.WriteLine("Error: incorrect syntax");
+                    Console.WriteLine(Constants.SYNTAX_ERROR);
             }
             else
-                Console.WriteLine("Error: Only admins can add personnel");
+                Console.WriteLine(Constants.NOT_AUTHORISED_ERROR);
         }
-
-        /// <summary>
-        /// ERROR MESSAGE
-        /// </summary>
-        private void None()
-        {
-            Console.WriteLine("Error: Command not found");
-        }
-
     } 
 }
