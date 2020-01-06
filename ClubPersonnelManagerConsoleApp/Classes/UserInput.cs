@@ -37,20 +37,26 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         /// </summary>
         public UserInput()
         {
+            //Initialise user input
             Globals.UserInput = this;
             Globals.UserInput.Options = new Dictionary<string, string>();
             Globals.UserInput.Parameters = new List<string>();
 
+            //Console indicator
             if (Globals.User.Authenticated)
                 Console.Write("{0}> ", Globals.User.Username);
             else
                 Console.Write("> ");
             Globals.UserInput.RawText = Console.ReadLine().Trim();
 
+            //if a command has been given
             if (Globals.UserInput.RawText != "")
             {
+                //split command into array
                 Globals.UserInput.RawTextArr = Globals.UserInput.RawText.Split(' ');
+                //get the command name
                 GetCommandName();
+                //process the command
                 ProcessCommand();
             }
         }
@@ -74,38 +80,55 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         /// </summary>
         public void ProcessCommand()
         {
-            switch (this.Command)
+            if ((this.Command == UserInput.Commands.login) || (this.Command == UserInput.Commands.help))
             {
-                case Commands.none:
-                    Console.WriteLine(Constants.NO_COMMAND_ERROR);
-                    break;
-                case Commands.login:
-                    Globals.User.Login();
-                    break;
-                case Commands.logout:
-                    Globals.User.Logout();
-                    break;
-                case Commands.exit:
-                    Globals.User.Exit();
-                    break;
-                case Commands.help:
-                    Help();
-                    break;
-                case Commands.add:
-                    Add();
-                    break;
-                case Commands.find:
-                    Find();
-                    break;
-                case Commands.edit:
-                    Edit();
-                    break;
-                case Commands.delete:
-                    Delete();
-                    break;
-                default:
-                    None();
-                    break;
+                switch (this.Command)
+                {
+                    case Commands.login:
+                        Globals.User.Login();
+                        break;
+                    case Commands.help:
+                        Help();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (Globals.User.Authenticated == true)
+            {
+                switch (this.Command)
+                {
+                    case Commands.none:
+                        Console.WriteLine(Constants.NO_COMMAND_ERROR);
+                        break;
+                    case Commands.logout:
+                        Globals.User.Logout();
+                        break;
+                    case Commands.exit:
+                        Globals.User.Exit();
+                        break;
+                    case Commands.help:
+                        Help();
+                        break;
+                    case Commands.add:
+                        Add();
+                        break;
+                    case Commands.find:
+                        Find();
+                        break;
+                    case Commands.edit:
+                        Edit();
+                        break;
+                    case Commands.delete:
+                        Delete();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Please log in");
             }
         }
 
@@ -159,7 +182,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         }
 
         /// <summary>
-        /// delete {-s|-p} squadnumber
+        /// delete {-s|-p} ID
         /// </summary>
         private void Delete()
         {
@@ -183,7 +206,6 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 switch (command)
                 {
                     case Commands.none:
-                        None();
                         break;
                     case Commands.login:
                         Console.WriteLine(Constants.LOGIN_SYNTAX);

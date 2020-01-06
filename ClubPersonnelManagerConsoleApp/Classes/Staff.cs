@@ -105,6 +105,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 Globals.Person = new Person();
                 DeletePerson(true);
                 AddStaff(true);
+                Console.WriteLine("Staff Edited Successfully");
             }
         }
     }

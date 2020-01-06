@@ -13,6 +13,7 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
         string Password { get; set; }
         bool IsAdmin { get; set; }
         bool Authenticated { get; set; }
+        
 
         void Login();
         void Logout();

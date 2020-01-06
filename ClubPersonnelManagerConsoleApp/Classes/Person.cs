@@ -207,9 +207,17 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 Console.WriteLine(ex.Message);
             }
 
-            for (int i = 0; i < list.Count; i++)
-                if (list[i].Split(',')[1].Contains(Globals.Person.Name))
-                    foundPeople.Add(list[i]);
+            for (int i = 0; i < list.Count; i++) try
+                {
+
+                    if (list[i].Split(',')[1].Contains(Globals.Person.Name))
+                        foundPeople.Add(list[i]);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error at line " + i.ToString() + " of csv file");
+
+                }
             if (foundPeople.Count < 1) 
                 Console.WriteLine(Constants.NO_MATCH_FEEBACK);
             else

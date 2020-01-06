@@ -83,7 +83,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             string file = Constants.PLAYER_CSV_FILE;
             string line = string.Format("{0},{1},{2},{3}\n", Globals.Player.Id.ToString(), Globals.Player.Name, Globals.Player.Position, Globals.Player.SquadNumber);
             string[] lines;
-            try
+            try 
             {
                 File.AppendAllText(file, line);
                 if (!isEdit)
@@ -122,6 +122,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             DeletePerson(true);
             AddPlayer(true);
             Globals.Player = null;
+            Console.WriteLine("Player Edited Successfully");
         }
     }
 }

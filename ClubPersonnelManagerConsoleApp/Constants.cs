@@ -11,11 +11,11 @@ namespace ClubPersonnelManagerConsoleApp
         //SYNTAX
         public const string LOGIN_SYNTAX = "login u p\nu: username\np: password";
         public const string LOGOUT_SYNTAX = "logout [e]\ne: exit";
-        public const string EXIT_SYNTAX = "logout";
+        public const string EXIT_SYNTAX = "exit\nexits the app";
         public const string HELP_SYNTAX = "help c\nc: command";
         public const string ADD_SYNTAX = "add [f.] {-p p n|-s r}\nf: first name(s)\nl: last name(s)\n(for multiple names dont use spaces and capitalise each name\np: indicates adding a player\n-s: indicates adding staff\np: position\nn: number\nr: role";
-        public const string FIND_SYNTAX = "";
-        public const string EDIT_SYNTAX = "";
+        public const string FIND_SYNTAX = "find {-p|-s} n\n-p: Search for players\n-s: Search for staff\nn: Name";
+        public const string EDIT_SYNTAX = "edit {-p:|-s} i {n|p|s|r}\n-p: Edit Player\n-s: Edit Staff\ni: ID\nn: Name\np: Position\ns:Squad Number (Player Only)\nr: Role (Staff Only)";
         public const string DELETE_SYNTAX = "delete {-s|-p} \n-s: indicates deleting a player\n-s: indicated deleting staff\ni: id number";
 
         //ERROR MESAGES

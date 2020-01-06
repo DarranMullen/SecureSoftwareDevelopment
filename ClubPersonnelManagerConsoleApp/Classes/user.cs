@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,21 +17,26 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public bool IsAdmin { get; set; }
         public bool Authenticated { get; set; }
 
-        public User(){}
+        public User()
+        {
+            Auth auth = new Auth();
+        }
 
         public void Login()
         {
-            string[] arr;
-
             if (!Globals.User.Authenticated)
             {
-                arr = Globals.UserInput.RawText.Split(' ');
+                string[] arr = Globals.UserInput.RawText.Split(' ');
                 if (arr.Length != 3)
                     Console.WriteLine(Constants.SYNTAX_ERROR);
                 else
                 {
                     for (int i = 1; i < arr.Length; i++)
+                    {
                         Globals.UserInput.Parameters.Add(arr[i]);
+                        if (i == 2)
+                            HashPassword(Globals.UserInput.Parameters[1]); //TODO: Secure
+                    }
                     try
                     {
                         ValidateUser();
@@ -54,12 +60,24 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 {
                     Globals.User.Authenticated = true;
                     Globals.User.Username = Globals.UserInput.Parameters[0];
-                    Globals.User.Password = Globals.UserInput.Parameters[1];
                     if (bool.TryParse(user.Split(',')[2], out bool isAdmin))
                         Globals.User.IsAdmin = bool.Parse((user.Split(',')[2]));
+                    Console.Clear();
+                    Console.WriteLine("Login Successful");
                     break;
                 }
             }
+        }
+
+        private void HashPassword(string password)
+        {
+            var pbkdf2 = new Rfc2898DeriveBytes(password, Globals.Auth.salt, 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
+            byte[] hashBytes = new byte[36];
+            Array.Copy(Globals.Auth.salt, 0, hashBytes, 0, 16);
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+            Globals.UserInput.Parameters[1] = Convert.ToBase64String(hashBytes);
+            Globals.User.Password = Globals.UserInput.Parameters[1];
         }
 
         private void LoginError()
