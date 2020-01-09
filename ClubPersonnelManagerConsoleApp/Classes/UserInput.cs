@@ -49,6 +49,12 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 Console.Write("> ");
             Globals.UserInput.RawText = Console.ReadLine().Trim();
 
+            if (Globals.UserInput.RawText.StartsWith("login") && Globals.UserInput.RawText.Split(' ').Length == 3) 
+            {
+                Console.Clear();
+                Globals.Auth.HashPassword(Globals.UserInput.RawText.Split(' ')[2]);
+            }
+
             //if a command has been given
             if (Globals.UserInput.RawText != "")
             {

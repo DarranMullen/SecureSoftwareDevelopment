@@ -12,5 +12,7 @@ namespace ClubPersonnelManagerConsoleApp.Interfaces
 
         void GenerateSalt();
 
+        void HashPassword(string password);
+
     }
 }

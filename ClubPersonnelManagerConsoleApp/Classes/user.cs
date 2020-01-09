@@ -20,23 +20,21 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public User()
         {
             Auth auth = new Auth();
+            Globals.Auth = auth;
         }
 
         public void Login()
         {
             if (!Globals.User.Authenticated)
             {
-                string[] arr = Globals.UserInput.RawText.Split(' ');
-                if (arr.Length != 3)
+                ///
+                //string[] arr = Globals.UserInput.RawText.Split(' ');
+                if (Globals.UserInput.RawTextArr.Length != 2)
                     Console.WriteLine(Constants.SYNTAX_ERROR);
                 else
                 {
-                    for (int i = 1; i < arr.Length; i++)
-                    {
-                        Globals.UserInput.Parameters.Add(arr[i]);
-                        if (i == 2)
-                            HashPassword(Globals.UserInput.Parameters[1]); //TODO: Secure
-                    }
+                    Globals.UserInput.Parameters.Add(Globals.UserInput.RawTextArr[1]);
+
                     try
                     {
                         ValidateUser();
@@ -56,13 +54,12 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             IEnumerable<string> users = File.ReadLines(Constants.USER_CSV_FILE);
             foreach (var user in users)
             {
-                if (user.Split(',')[0].Equals(Globals.UserInput.Parameters[0]) && user.Split(',')[1].Equals(Globals.UserInput.Parameters[1]))
+                if (user.Split(',')[0].Equals(Globals.UserInput.Parameters[0]) && user.Split(',')[1].Equals(Globals.User.Password))
                 {
                     Globals.User.Authenticated = true;
                     Globals.User.Username = Globals.UserInput.Parameters[0];
                     if (bool.TryParse(user.Split(',')[2], out bool isAdmin))
                         Globals.User.IsAdmin = bool.Parse((user.Split(',')[2]));
-                    Console.Clear();
                     Console.WriteLine("Login Successful");
                     break;
                 }
