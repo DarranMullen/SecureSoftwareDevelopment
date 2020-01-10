@@ -50,12 +50,6 @@
     <Compile Include="Classes\UserInput.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Globals.cs" />
-    <Compile Include="Interfaces\IAuth.cs" />
-    <Compile Include="Interfaces\IPerson.cs" />
-    <Compile Include="Interfaces\IPlayer.cs" />
-    <Compile Include="Interfaces\IStaff.cs" />
-    <Compile Include="Interfaces\IUser.cs" />
-    <Compile Include="Interfaces\IUserInput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

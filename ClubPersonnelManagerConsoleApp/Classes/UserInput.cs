@@ -1,5 +1,4 @@
-﻿using ClubPersonnelManagerConsoleApp.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 namespace ClubPersonnelManagerConsoleApp.Classes
 {
 
-    class UserInput : IUserInput
+    class UserInput 
     {
         /// <summary>
         /// Valid commands
@@ -53,6 +52,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             {
                 Console.Clear();
                 Globals.Auth.HashPassword(Globals.UserInput.RawText.Split(' ')[2]);
+                GC.Collect();
             }
 
             //if a command has been given
@@ -70,7 +70,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         /// <summary>
         /// get the command and parse it against commands enum
         /// </summary>
-        public void GetCommandName()
+        private void GetCommandName()
         {
             string strCommand = string.Empty;
 
@@ -84,7 +84,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         /// <summary>
         /// switch to run correct command method
         /// </summary>
-        public void ProcessCommand()
+        private void ProcessCommand()
         {
             if ((this.Command == UserInput.Commands.login) || (this.Command == UserInput.Commands.help))
             {

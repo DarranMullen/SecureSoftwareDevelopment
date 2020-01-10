@@ -1,5 +1,4 @@
-﻿using ClubPersonnelManagerConsoleApp.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClubPersonnelManagerConsoleApp.Classes
 {
-    class Player : Person, IPlayer
+    class Player : Person
     {
         public enum Positions
         {
@@ -36,7 +35,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             Globals.Player.Id = id;
         }
 
-        public void GetPosition()
+        private void GetPosition()
         {
             if (Enum.TryParse(Globals.UserInput.RawTextArr[3], out Positions pos))
             {
@@ -67,7 +66,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             }
         }
 
-        public void GetSquadNumber()
+        private void GetSquadNumber()
         {
             if (int.TryParse(Globals.UserInput.RawTextArr[4], out int num))
                 this.SquadNumber = num;

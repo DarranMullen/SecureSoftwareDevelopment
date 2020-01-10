@@ -12,6 +12,7 @@ namespace ClubPersonnelManagerConsoleApp
     {
         static void Main()
         {
+            Globals.Auth = new Auth();
             do
             {
                 ///This following region was used to hash the existing passwords in the database and is left here to show my work only.

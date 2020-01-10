@@ -1,5 +1,4 @@
-﻿using ClubPersonnelManagerConsoleApp.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -8,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ClubPersonnelManagerConsoleApp.Classes
 {
-    class Auth : IAuth
+    class Auth
     {
-        public byte[] salt { get; set; }
+        internal byte[] Salt { get; set; }
 
         public Auth()
         {
@@ -18,21 +17,20 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             GenerateSalt();
         }
 
-        public void GenerateSalt()
+        private void GenerateSalt()
         {
-            Globals.Auth.salt = Encoding.ASCII.GetBytes(Constants.SALT);
+            Globals.Auth.Salt = Encoding.ASCII.GetBytes(Constants.SALT);
         }
 
-        public void HashPassword(string password)
+        internal void HashPassword(string password)
         {
-            var pbkdf2 = new Rfc2898DeriveBytes(password, Globals.Auth.salt, 10000);
+            Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, Globals.Auth.Salt, 10000);
             byte[] hash = pbkdf2.GetBytes(20);
             byte[] hashBytes = new byte[36];
-            Array.Copy(Globals.Auth.salt, 0, hashBytes, 0, 16);
+            Array.Copy(Globals.Auth.Salt, 0, hashBytes, 0, 16);
             Array.Copy(hash, 0, hashBytes, 16, 20);
             Globals.User.Password = Convert.ToBase64String(hashBytes);
             Globals.UserInput.RawText = Globals.UserInput.RawText.Remove((Globals.UserInput.RawText.Length - (Globals.UserInput.RawText.Split(' ')[2].Length + 1)));
-
         }
     }
 }

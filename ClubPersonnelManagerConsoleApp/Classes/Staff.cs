@@ -1,5 +1,4 @@
-﻿using ClubPersonnelManagerConsoleApp.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClubPersonnelManagerConsoleApp.Classes
 {
-    class Staff : Person, IStaff
+    class Staff : Person
     {
         public enum Roles
         {
@@ -34,7 +33,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             Globals.Staff.Id = id;
         }
 
-        public void GetRole()
+        private void GetRole()
         {
             if (Enum.TryParse(Globals.UserInput.RawTextArr[3], out Roles r))
             {

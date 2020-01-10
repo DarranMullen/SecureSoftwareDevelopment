@@ -1,5 +1,4 @@
-﻿using ClubPersonnelManagerConsoleApp.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ClubPersonnelManagerConsoleApp.Classes
 {
-    class User : IUser
+    class User
     {
 
         public string Username { get; set; }
@@ -19,16 +18,13 @@ namespace ClubPersonnelManagerConsoleApp.Classes
 
         public User()
         {
-            Auth auth = new Auth();
-            Globals.Auth = auth;
+            
         }
 
         public void Login()
         {
             if (!Globals.User.Authenticated)
             {
-                ///
-                //string[] arr = Globals.UserInput.RawText.Split(' ');
                 if (Globals.UserInput.RawTextArr.Length != 2)
                     Console.WriteLine(Constants.SYNTAX_ERROR);
                 else
@@ -68,10 +64,10 @@ namespace ClubPersonnelManagerConsoleApp.Classes
 
         private void HashPassword(string password)
         {
-            var pbkdf2 = new Rfc2898DeriveBytes(password, Globals.Auth.salt, 10000);
+            var pbkdf2 = new Rfc2898DeriveBytes(password, Globals.Auth.Salt, 10000);
             byte[] hash = pbkdf2.GetBytes(20);
             byte[] hashBytes = new byte[36];
-            Array.Copy(Globals.Auth.salt, 0, hashBytes, 0, 16);
+            Array.Copy(Globals.Auth.Salt, 0, hashBytes, 0, 16);
             Array.Copy(hash, 0, hashBytes, 16, 20);
             Globals.UserInput.Parameters[1] = Convert.ToBase64String(hashBytes);
             Globals.User.Password = Globals.UserInput.Parameters[1];
