@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace ClubPersonnelManagerConsoleApp.Classes
 {
-
+    /// <summary>
+    /// UserInput class is responsible for the handling of the raw text entered by a user, ie. command manager.
+    /// User input contains rawtext, an array of the raw text: rawtextarr, a command, a dict of options and a list of params.
+    /// user input is concerned with getting the command from a user and processing it
+    /// </summary>
     class UserInput 
     {
         /// <summary>
-        /// Valid commands
+        /// There are 9 Valid commands
         /// </summary>
         public enum Commands
         {
@@ -47,13 +51,6 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             else
                 Console.Write("> ");
             Globals.UserInput.RawText = Console.ReadLine().Trim();
-
-            if (Globals.UserInput.RawText.StartsWith("login") && Globals.UserInput.RawText.Split(' ').Length == 3) 
-            {
-                Console.Clear();
-                Globals.Auth.HashPassword(Globals.UserInput.RawText.Split(' ')[2]);
-                GC.Collect();
-            }
 
             //if a command has been given
             if (Globals.UserInput.RawText != "")
@@ -259,18 +256,29 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             if (Globals.User.IsAdmin)
             {
-                if (Globals.UserInput.RawTextArr[2][1] == 'p')
+                if (Globals.UserInput.RawTextArr[1][0] == 'u')
                 {
-                    Globals.Player = new Player();
-                    Globals.Player.AddPlayer();
-                }
-                else if (Globals.UserInput.RawTextArr[2][1] == 's')
-                {
-                    Globals.Staff = new Staff();
-                    Globals.Staff.AddStaff();
+                    User mainUser = Globals.User;
+                    Globals.User = new User();
+                    Globals.User.AddUser();
+                    Globals.User = mainUser;
                 }
                 else
-                    Console.WriteLine(Constants.SYNTAX_ERROR);
+                {
+                    if (Globals.UserInput.RawTextArr[2][1] == 'p')
+                    {
+                        Globals.Player = new Player();
+                        Globals.Player.AddPlayer();
+                    }
+                    else if (Globals.UserInput.RawTextArr[2][1] == 's')
+                    {
+                        Globals.Staff = new Staff();
+                        Globals.Staff.AddStaff();
+                    }
+                    else
+                        Console.WriteLine(Constants.SYNTAX_ERROR);
+                }
+                
             }
             else
                 Console.WriteLine(Constants.NOT_AUTHORISED_ERROR);

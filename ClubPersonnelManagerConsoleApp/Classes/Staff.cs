@@ -7,18 +7,33 @@ using System.Threading.Tasks;
 
 namespace ClubPersonnelManagerConsoleApp.Classes
 {
+    /// <summary>
+    /// Staff inherits from Person
+    /// A staff has a Role
+    /// </summary>
     class Staff : Person
     {
+        /// <summary>
+        /// There are fou valid roles:
+        /// M = Manager,
+        /// A = Assistant,
+        /// C = Coach,
+        /// S = Scout.
+        /// </summary>
         public enum Roles
         {
-            M,  /*  Manager     */
-            A,  /*  Assistant   */
-            C,  /*  Coach       */
-            S   /*  Scout       */
+            M,  
+            A,  
+            C,  
+            S   
         }
 
         public string Role { get; set; }
 
+        /// <summary>
+        /// Initialise staff and set Id and Name frm raw text.
+        /// then get role.
+        /// </summary>
         public Staff()
         {
             Globals.Staff = this;
@@ -27,12 +42,19 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             GetRole();
         }
 
+        /// <summary>
+        /// initialise staff with a given Id
+        /// </summary>
+        /// <param name="id"></param>
         public Staff(int id)
         {
             Globals.Staff = this;
             Globals.Staff.Id = id;
         }
 
+        /// <summary>
+        /// parse the raw text for a staff role and assign it to the staff
+        /// </summary>
         private void GetRole()
         {
             if (Enum.TryParse(Globals.UserInput.RawTextArr[3], out Roles r))
@@ -64,11 +86,18 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             }
         }
 
+        /// <summary>
+        /// add a staff member to the staff csv.
+        /// isEdit is a flag for display feedback
+        /// </summary>
+        /// <param name="isEdit"></param>
         public void AddStaff(bool isEdit = false)
         {
+            //concat the line to add to the file
             string file = Constants.STAFF_CSV_FILE;
             string line = string.Format("{0},{1},{2}\n", Globals.Staff.Id.ToString(), Globals.Staff.Name, Globals.Staff.Role);
             string[] lines;
+            //try add line to file
             try
             {
                 File.AppendAllText(file, line);
@@ -85,8 +114,12 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             Globals.Staff = null;
         }
 
+        /// <summary>
+        /// update a staff
+        /// </summary>
         public void EditStaff()
         {
+            //for each option provided, assigm it to the Staff
             foreach (var option in Globals.UserInput.Options)
             {
                 switch (option.Key)
