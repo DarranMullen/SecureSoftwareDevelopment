@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ClubPersonnelManagerConsoleApp
 {
+    //TODO: add password expiry
+    //TODO: log user out if inactive for 60 seconds
+
     class Program
     {
         static void Main()

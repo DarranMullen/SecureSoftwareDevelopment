@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{368283F8-FAA0-4671-8290-E8DFE665FF05}"
 	ProjectSection(SolutionItems) = preProject
 		ClubPersonnelManagerConsoleApp\bin\Debug\PlayerDB.csv = ClubPersonnelManagerConsoleApp\bin\Debug\PlayerDB.csv
+		..\..\..\..\Desktop\SSD\Requirement Specification.docx = ..\..\..\..\Desktop\SSD\Requirement Specification.docx
+		..\..\..\..\Desktop\SSD\Software Architecture.docx = ..\..\..\..\Desktop\SSD\Software Architecture.docx
 		ClubPersonnelManagerConsoleApp\bin\Debug\StaffDB.csv = ClubPersonnelManagerConsoleApp\bin\Debug\StaffDB.csv
 		ClubPersonnelManagerConsoleApp\bin\Debug\UserDB.csv = ClubPersonnelManagerConsoleApp\bin\Debug\UserDB.csv
 	EndProjectSection
