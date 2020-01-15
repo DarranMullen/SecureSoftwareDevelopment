@@ -42,10 +42,10 @@ namespace ClubPersonnelManagerConsoleApp
         //HEADERS
         public const string HELP_COMMAND_TITLE = "All commands";
         public const string PLAYER_LIST_TITLE = "ID   NAME                     POSITION                 SQUADNUMBER";
-        
+
 
         //FILES
-        public const string USER_CSV_FILE = "C:\\Users\\Darran\\source\\repos\\Secure Software Development\\ClubPersonnelManager\\ClubPersonnelManagerConsoleApp\\bin\\Debug\\UserDB.csv";
+        public const string USER_CSV_FILE = "\\UserDb.csv";//"C:\\Users\\Darran\\source\\repos\\Secure Software Development\\ClubPersonnelManager\\ClubPersonnelManagerConsoleApp\\bin\\Debug\\UserDB.csv";
         public const string PLAYER_CSV_FILE = "C:\\Users\\Darran\\source\\repos\\Secure Software Development\\ClubPersonnelManager\\ClubPersonnelManagerConsoleApp\\bin\\Debug\\PlayerDB.csv";
         public const string STAFF_CSV_FILE = "C:\\Users\\Darran\\source\\repos\\Secure Software Development\\ClubPersonnelManager\\ClubPersonnelManagerConsoleApp\\bin\\Debug\\StaffDB.csv";
 

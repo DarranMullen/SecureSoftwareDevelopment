@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,6 +14,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
     class Auth
     {
         //Variables
+        public string Dir { get; set; }
         public byte[] Salt { get; set; }
 
         /// <summary>
@@ -21,6 +23,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public Auth()
         {
             Globals.Auth = this;
+            Dir = Directory.GetCurrentDirectory();
             GenerateSalt();
         }
 

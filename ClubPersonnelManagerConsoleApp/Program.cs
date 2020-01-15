@@ -1,6 +1,7 @@
 using ClubPersonnelManagerConsoleApp.Classes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,11 +11,14 @@ namespace ClubPersonnelManagerConsoleApp
 {
     //TODO: add password expiry
     //TODO: log user out if inactive for 60 seconds
-
+    //TODO: encrypt entire csv files
     class Program
     {
         static void Main()
         {
+
+            string dir = Directory.GetCurrentDirectory();
+            Console.WriteLine(dir);
             //Initialise the auth class
             Globals.Auth = new Auth();
             ///This keeps asking for user input

@@ -30,7 +30,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         {
             Console.Write("Name: ");
             string name = Console.ReadLine();
-            IEnumerable<string> users = File.ReadLines(Constants.USER_CSV_FILE);
+            IEnumerable<string> users = File.ReadLines(Globals.Auth.Dir + Constants.USER_CSV_FILE);
             //check if user exists
             foreach (var user in users)
             {
@@ -116,7 +116,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
 
         private void AddUserToCSV(string name, string pass, bool isAdmin)
         {
-            string file = Constants.USER_CSV_FILE;
+            string file = Globals.Auth.Dir + Constants.USER_CSV_FILE;
             string line = string.Format("{0},{1},{2}\n", name, pass, isAdmin);
             string[] lines;
             try
@@ -183,7 +183,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
 
         private void ValidateUser()
         {
-            IEnumerable<string> users = File.ReadLines(Constants.USER_CSV_FILE);
+            IEnumerable<string> users = File.ReadLines(Globals.Auth.Dir + Constants.USER_CSV_FILE);
             foreach (var user in users)
             {
                 if (user.Split(',')[0].Equals(Globals.UserInput.Parameters[0]) && user.Split(',')[1].Equals(Globals.User.Password))
