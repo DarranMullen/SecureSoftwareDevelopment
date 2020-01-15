@@ -59,13 +59,13 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     //player
                     if (Globals.UserInput.RawTextArr[1][1] == 'p')
                     {
-                        file = Constants.PLAYER_CSV_FILE;
+                        file = Globals.Auth.Dir + Constants.PLAYER_CSV_FILE;
                         list = File.ReadLines(file).ToList();
                     }
                     //staff
                     else if (Globals.UserInput.RawTextArr[1][1] == 's')
                     {
-                        file = Constants.STAFF_CSV_FILE;
+                        file = Globals.Auth.Dir + Constants.STAFF_CSV_FILE;
                         list = File.ReadLines(file).ToList();
                     }
                     else
@@ -163,17 +163,17 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                     //player
                     if (Globals.UserInput.RawTextArr[1][1] == 'p')
                     {
-                        file = Constants.PLAYER_CSV_FILE;
+                        file = Globals.Auth.Dir + Constants.PLAYER_CSV_FILE;
                         list = File.ReadLines(file).ToList();
                     }
                     //staff
                     else if (Globals.UserInput.RawTextArr[1][1] == 's')
                     {
-                        file = Constants.STAFF_CSV_FILE;
+                        file = Globals.Auth.Dir + Constants.STAFF_CSV_FILE;
                         list = File.ReadLines(file).ToList();
                     }
                     else
-                        Console.WriteLine(Constants.SYNTAX_ERROR);
+                        Console.WriteLine(Globals.Auth.Dir + Constants.SYNTAX_ERROR);
                 }
                 catch (Exception ex)
                 {
@@ -185,7 +185,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                 {
                     if (list[i].Split(',')[0].Equals(Globals.Person.Id.ToString()))
                     {
-                        if (file==Constants.PLAYER_CSV_FILE)
+                        if (file== Globals.Auth.Dir + Constants.PLAYER_CSV_FILE)
                         {
                             //Generate the Player object
                             Globals.Player = new Player(Globals.Person.Id);
@@ -195,7 +195,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
                             Globals.Player.SquadNumber = int.Parse(playerDetails[3]);
                             break;
                         }
-                        else if (file == Constants.STAFF_CSV_FILE)
+                        else if (file == Globals.Auth.Dir + Constants.STAFF_CSV_FILE)
                         {
                             //generate the staff object
                             Globals.Staff = new Staff(Globals.Person.Id);
@@ -239,12 +239,12 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             {
                 if (Globals.UserInput.RawTextArr[1][1] == 'p')
                 {
-                    file = Constants.PLAYER_CSV_FILE;
+                    file = Globals.Auth.Dir + Constants.PLAYER_CSV_FILE;
                     list = File.ReadLines(file).ToList();
                 }
                 else if (Globals.UserInput.RawTextArr[1][1] == 's')
                 {
-                    file = Constants.STAFF_CSV_FILE;
+                    file = Globals.Auth.Dir + Constants.STAFF_CSV_FILE;
                     list = File.ReadLines(file).ToList();
                 }
                 else
@@ -275,7 +275,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             else
             {
                 //players
-                if (file == Constants.PLAYER_CSV_FILE)
+                if (file == Globals.Auth.Dir + Constants.PLAYER_CSV_FILE)
                 {
                     Console.WriteLine(Constants.PLAYER_LIST_TITLE);
                     foreach (var p in foundPeople)

@@ -37,7 +37,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public Staff()
         {
             Globals.Staff = this;
-            Globals.Staff.Id = int.Parse(File.ReadLines(Constants.STAFF_CSV_FILE).Last().Split(',')[0]) + 1;
+            Globals.Staff.Id = int.Parse(File.ReadLines(Globals.Auth.Dir + Constants.STAFF_CSV_FILE).Last().Split(',')[0]) + 1;
             Globals.Staff.Name = Globals.UserInput.RawTextArr[1];
             GetRole();
         }
@@ -94,7 +94,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public void AddStaff(bool isEdit = false)
         {
             //concat the line to add to the file
-            string file = Constants.STAFF_CSV_FILE;
+            string file = Globals.Auth.Dir + Constants.STAFF_CSV_FILE;
             string line = string.Format("{0},{1},{2}\n", Globals.Staff.Id.ToString(), Globals.Staff.Name, Globals.Staff.Role);
             string[] lines;
             //try add line to file

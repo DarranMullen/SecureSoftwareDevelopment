@@ -39,7 +39,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public Player()
         {
             Globals.Player = this;
-            Globals.Player.Id = int.Parse(File.ReadLines(Constants.PLAYER_CSV_FILE).Last().Split(',')[0]) + 1;
+            Globals.Player.Id = int.Parse(File.ReadLines(Globals.Auth.Dir + Constants.PLAYER_CSV_FILE).Last().Split(',')[0]) + 1;
             Globals.Player.Name = Globals.UserInput.RawTextArr[1];
             GetPosition();
             GetSquadNumber();
@@ -118,7 +118,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
         public void AddPlayer(bool isEdit = false)
         {
             //Concat the line for adding to file
-            string file = Constants.PLAYER_CSV_FILE;
+            string file = Globals.Auth.Dir + Constants.PLAYER_CSV_FILE;
             string line = string.Format("{0},{1},{2},{3}\n", Globals.Player.Id.ToString(), Globals.Player.Name, Globals.Player.Position, Globals.Player.SquadNumber);
             string[] lines;
 
