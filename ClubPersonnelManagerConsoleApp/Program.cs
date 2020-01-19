@@ -16,9 +16,6 @@ namespace ClubPersonnelManagerConsoleApp
     {
         static void Main()
         {
-
-            string dir = Directory.GetCurrentDirectory();
-            Console.WriteLine(dir);
             //Initialise the auth class
             Globals.Auth = new Auth();
             ///This keeps asking for user input

@@ -48,7 +48,7 @@ namespace ClubPersonnelManagerConsoleApp.Classes
             //invalid if less than 16 chars
             if(pass.Length < 16) 
             {
-                Console.WriteLine("\nMin of 8 characters.");
+                Console.WriteLine("\nMin of 16 characters.");
                 Console.Write("Password: ");
                 pass = "";
                 GetPassword(ref pass);
